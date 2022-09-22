@@ -65,7 +65,7 @@ class Products extends BaseController
         $productsList = $productModel->asArray()->findAll(); //fetch all products in an array var
 
         //add a position to productList array containing the Edit link
-        $productList = add_column_link($productList, 'links', [
+        $productsList = add_column_link($productsList, 'links', [
                 'href'  => base_url('products/edit'),
                 'param' => 'id', //which parameter will be used in the URL (will be produced "products/edit/{id}) (E.g. products/edit/1 , products/edit/2 , etc...)
                 'title' => 'Edit',
@@ -91,7 +91,7 @@ Now a table will be displayed with a column containing the links for the edit ac
 You can also insert more than one link in the new column. The following code inserts the "Edit" and "Delete" links.
 
 ```php
-$productList = add_column_link($productList, 'links', [
+$productsList = add_column_link($productsList, 'links', [
     [
         'href'  => base_url('products/edit'),
         'param' => 'id',
