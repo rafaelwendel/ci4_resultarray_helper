@@ -10,9 +10,10 @@ if (! function_exists('add_column_link')) {
      * @param array    $result      A model (query) array result
      * @param string   $indexTitle  Index of new array position
      * @param array    $links       Link (or Links) properties ("href", "title", "param" (dynamic parameter) and "attr")
+     * @param array    $columns     Model (table) columns that should be displayed (e.g. Use "id" to generate links, but not display a cell with id value)
      * @param string   $separator   How to separate one link from another
      */
-    function add_column_link($result, $indexTitle, $links, $separator = '&nbsp')
+    function add_column_link($result, $indexTitle, $links, $columns = [], $separator = '&nbsp')
     {
         if(!is_array($result) || !is_array($links)) {
             return '';
@@ -35,6 +36,18 @@ if (! function_exists('add_column_link')) {
                 $newCellValue .= anchor($href, $link['title'], $link['attr'] ?? '') . $separator;
             }
             $result[$i][$indexTitle] = $newCellValue;
+        }
+
+        //delete columns that should not display
+        if(is_array($columns) && count($columns) > 0) {
+            $columns[] = $indexTitle;
+            for($i = 0; $i < count($result); $i++) {
+                foreach ($result[$i] as $key => $value) {
+                    if (! in_array($key, $columns)) {
+                        unset($result[$i][$key]);
+                    }
+                }
+            }
         }
 
         return $result;
